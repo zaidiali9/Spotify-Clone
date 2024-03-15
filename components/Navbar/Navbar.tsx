@@ -19,11 +19,11 @@ const Navbar = () => {
   return (
     <>
       <nav className='flex justify-between items-center bg-transparent p-4 relative z-10 md:justify-around'>
-        <Link href={"/"} className='bg-transparent text-white text-2xl'>ONE SOUND</Link>
+        <Link href={"/"} className='bg-transparent text-black text-2xl'>ONE SOUND</Link>
         
         {/* Hamburger menu for small screens */}
         <div className="md:hidden">
-          <Hamburger toggle={openDrawer} color='white' />
+          <Hamburger toggle={openDrawer} color='black' />
         </div>
         
         {/* Drawer component for small screens */}
@@ -59,7 +59,7 @@ const Navbar = () => {
           </div>
           
           {/* Content inside the Drawer */}
-          <ul className="flex flex-col">
+          <ul className="flex flex-col text-white">
             <li className="mb-2">
               <Link href="/">
                 Home
