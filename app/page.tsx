@@ -6,9 +6,9 @@ import AlbumList from "@/components/LatestAlbums/Albums";
 export default function Home() {
   return (
     <>
-    
         <HomePage/>
         <AlbumList/>
+
     </>
   );
 }

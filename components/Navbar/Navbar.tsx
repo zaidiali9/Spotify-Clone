@@ -9,6 +9,7 @@ import {
   IconButton,
 } from "@material-tailwind/react";
 import Hamburger from 'hamburger-react'
+import { UserButton } from '@clerk/nextjs';
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -19,7 +20,7 @@ const Navbar = () => {
   return (
     <>
       <nav className='flex justify-between items-center bg-transparent p-4 relative z-10 md:justify-around'>
-        <Link href={"/"} className='bg-transparent text-black text-2xl'>ONE SOUND</Link>
+        <Link href={"/"} className='bg-transparent text-white text-2xl'>ONE SOUND</Link>
         
         {/* Hamburger menu for small screens */}
         <div className="md:hidden">
@@ -91,8 +92,8 @@ const Navbar = () => {
               </Link>
             </li>
             <li className="mb-2">
-              <Link href="/login">
-                Login/Register
+              <Link href="/">
+                <UserButton/>
               </Link>
             </li>
           </ul>
@@ -133,7 +134,7 @@ const Navbar = () => {
             </li>
             <li>
               <Link href="/login">
-                Login/Register
+                <UserButton/>
               </Link>
             </li>
           </ul>
