@@ -1,14 +1,14 @@
 import Image from "next/image";
 import HomePage from "./home/page";
-import Albums from "@/components/LatestAlbums/Albums";
 import Navbar from "@/components/Navbar/Navbar";
+import AlbumList from "@/components/LatestAlbums/Albums";
 
 export default function Home() {
   return (
     <>
     
         <HomePage/>
-        <Albums/>
+        <AlbumList/>
     </>
   );
 }
