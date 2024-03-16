@@ -72,7 +72,7 @@ const Navbar = () => {
               </Link>
             </li>
             <li className="mb-2">
-              <Link href="/pages">
+              <Link href="/login">
                 Pages
               </Link>
             </li>
