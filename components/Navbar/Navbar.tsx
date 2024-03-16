@@ -93,7 +93,7 @@ const Navbar = () => {
             </li>
             <li className="mb-2">
               <Link href="/">
-                <UserButton/>
+                <UserButton afterSignOutUrl='/'/>
               </Link>
             </li>
           </ul>
@@ -134,7 +134,7 @@ const Navbar = () => {
             </li>
             <li>
               <Link href="/login">
-                <UserButton/>
+                <UserButton afterSignOutUrl='/'/>
               </Link>
             </li>
           </ul>

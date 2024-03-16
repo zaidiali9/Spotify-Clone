@@ -7,7 +7,7 @@ const data = [
   {
     artist: 'WILL I AM',
     title: 'First',
-    image: "/assets/a1.jpg", // Assign the imported image to the 'image' property
+    image: "/assets/a1.jpg", 
   },
   {
     artist: 'WILL I AM',
