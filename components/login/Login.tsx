@@ -3,7 +3,6 @@ import React from 'react'
 import './style.css'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faMicrophone } from '@fortawesome/free-solid-svg-icons';
-import { SignIn, SignUp } from '@clerk/nextjs';
 import { useRouter } from 'next/navigation'
 const LOGIN = () => {
   const router= useRouter()
