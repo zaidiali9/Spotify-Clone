@@ -24,16 +24,6 @@ const data = [
     title: 'Unplugged',
     image: "/assets/a4.jpg",
   },
-  {
-    artist: 'THE USTOPABLE',
-    title: 'Songs',
-    image: "/assets/a5.jpg",
-  },
-  {
-    artist: 'BEYONCE',
-    title: 'The Album',
-    image: "/assets/a6.jpg",
-  },
 ];
 const AlbumList = () => {
   const [albums, setAlbums] = useState(data);

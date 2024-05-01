@@ -19,7 +19,7 @@ const Navbar = () => {
   
   return (
     <>
-      <nav className='flex justify-between items-center bg-transparent p-4 relative z-10 md:justify-around'>
+      <nav className='flex justify-between items-center bg-transparent p-8 relative z-10 md:justify-around'>
         <Link href={"/"} className='bg-transparent text-white text-2xl'>ONE SOUND</Link>
         
         {/* Hamburger menu for small screens */}
@@ -134,7 +134,7 @@ const Navbar = () => {
             </li>
             <li>
               <Link href="/login">
-                <UserButton afterSignOutUrl='/'/>
+                <UserButton afterSignOutUrl='/' />
               </Link>
             </li>
           </ul>
