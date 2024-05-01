@@ -1,7 +1,15 @@
+"use client"
 import React from "react";
-
+import { useState, useEffect } from 'react'
 const Footer = () => {
-    return (<>
+    const [isClient, setIsClient] = useState(false)
+    const [date,setdate]=useState(new Date().getFullYear())
+    useEffect(() => {
+        setIsClient(true)
+
+      }, [])
+    
+return (<>
 
     <footer className="flex justify-center px-4 text-gray-800 bg-black dark:text-white dark:bg-gray-900">
     <div className="container px-6 py-6">
@@ -11,8 +19,8 @@ const Footer = () => {
                 <img src="/assets/logo.png" alt=""></img>
             </a>
             <p className="copywrite-text text-xs font-bold py-1"><a href="#">
-                    Copyright ©<script>document.write(new Date().getFullYear());</script>2024 All rights reserved | This template is made by HASI</a>
-                    </p>
+                Copyright ©{date} All rights reserved | This template is made by HASI</a>
+            </p>
             </div>
 
             <div className="flex mr-12">

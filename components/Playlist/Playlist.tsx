@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "./playlist.css";
 import Link from "next/link";
 import {
@@ -10,7 +10,7 @@ import {
 } from "@material-tailwind/react";
 import Hamburger from "hamburger-react";
 import { UserButton } from "@clerk/nextjs";
-
+import axios from 'axios';
 const playlists = [
   {
     artist: "WILL I AM",
@@ -299,7 +299,42 @@ const favsongs = [
     artist: "AP Dhillon",
   },
 ];
+
 function Playlist() {
+  const [search, setSearch] = useState('');
+  const [searchResult, setSearchResult] = useState(null);
+
+  useEffect(() => {
+    const delayDebounceFn = setTimeout(() => {
+      if (search.trim() !== '') {
+        const options = {
+          method: 'GET',
+          url: 'https://spotify23.p.rapidapi.com/search/',
+          params: {
+            q: search,
+            type: 'multi',
+            offset: '0',
+            limit: '10',
+            numberOfTopResults: '5'
+          },
+          headers: {
+            'X-RapidAPI-Key': 'c5a77051abmshadc8eff1cee4fdfp1883d1jsn9fed63204675',
+            'X-RapidAPI-Host': 'spotify23.p.rapidapi.com'
+          }
+        };
+
+        axios.request(options).then(function (response) {
+          setSearchResult(response.data);
+        }).catch(function (error) {
+          console.error(error);
+        });
+      } else {
+        setSearchResult(null);
+      }
+    }, 1000); // Delay in milliseconds
+
+    return () => clearTimeout(delayDebounceFn);
+  }, [search]);
   const [isOpen, setIsOpen] = useState(false);
 
   const toggleSidebar = () => {
