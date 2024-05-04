@@ -2,6 +2,7 @@
 import React, { useState, useEffect } from "react";
 import "./playlist.css";
 import Link from "next/link";
+import { Song } from "@/interface/song";
 import {
   Drawer,
   Button,
@@ -301,40 +302,34 @@ const favsongs = [
 ];
 
 function Playlist() {
-  const [search, setSearch] = useState('');
-  const [searchResult, setSearchResult] = useState(null);
-
-  useEffect(() => {
-    const delayDebounceFn = setTimeout(() => {
-      if (search.trim() !== '') {
-        const options = {
-          method: 'GET',
-          url: 'https://spotify23.p.rapidapi.com/search/',
-          params: {
-            q: search,
-            type: 'multi',
-            offset: '0',
-            limit: '10',
-            numberOfTopResults: '5'
-          },
-          headers: {
-            'X-RapidAPI-Key': 'c5a77051abmshadc8eff1cee4fdfp1883d1jsn9fed63204675',
-            'X-RapidAPI-Host': 'spotify23.p.rapidapi.com'
-          }
-        };
-
-        axios.request(options).then(function (response) {
-          setSearchResult(response.data);
-        }).catch(function (error) {
-          console.error(error);
-        });
-      } else {
-        setSearchResult(null);
+  
+  const [Data, setData] = useState<Song []>([]);
+  const fetchdata = async () => {
+    const options = {
+      method: 'GET',
+      url: 'https://spotify23.p.rapidapi.com/search/',
+      params: {
+        q: 'arijit singh',
+        type: 'tracks',
+        offset: '0',
+        limit: '100'
+      },
+      headers: {
+        'X-RapidAPI-Key': 'c5a77051abmshadc8eff1cee4fdfp1883d1jsn9fed63204675',
+        'X-RapidAPI-Host': 'spotify23.p.rapidapi.com'
       }
-    }, 1000); // Delay in milliseconds
-
-    return () => clearTimeout(delayDebounceFn);
-  }, [search]);
+    };
+    const response = await axios.request(options).then(function (response) {
+      setData(response.data.tracks.items);
+    }).catch(function (error) {
+      console.error(error);
+    })
+  }
+useEffect(() => {
+    fetchdata();
+}, []);
+  
+  console.log("This is array",Data);
   const [isOpen, setIsOpen] = useState(false);
 
   const toggleSidebar = () => {
@@ -384,13 +379,13 @@ function Playlist() {
             <div className="grid grid-cols-12 text-xs font-semibold text-black p-4">
               <div className="col-span-1">#</div>
               <div className="col-span-4">Title</div>
-              <div className="col-span-3">Album</div>
-              <div className="col-span-2">Date added</div>
+              <div className="col-span-3 ">Album</div>
               <div className="col-span-2">Duration</div>
             </div>
           </div>
           <div className="bg-gray-800 rounded-b-lg shadow ">
-            {first.map((song, index) => (
+            {Data.map((song, index) =>
+            (
               <div
                 key={index}
                 className="grid grid-cols-12 text-sm text-black hover:bg-gray-700 p-4 items-center"
@@ -398,18 +393,17 @@ function Playlist() {
                 <div className="col-span-1">{index + 1}</div>
                 <div className="col-span-4 flex items-center">
                   <img
-                    src={song.image}
-                    alt={song.name}
+                    src={song.data.albumOfTrack.coverArt.sources[0].url}
+                    alt={song.data.name}
                     className="w-8 h-8 rounded-full mr-2"
                   />
                   <div>
-                    <div className="font-medium">{song.name}</div>
-                    <div className="text-black">{song.artist}</div>
+                    <div className="font-medium">{song.data.name}</div>
+                    <div className="text-black">{song.data.name}</div>
                   </div>
                 </div>
-                <div className="col-span-3">{song.album}</div>
-                <div className="col-span-2">{song.date}</div>
-                <div className="col-span-2">{song.duration}</div>
+                <div className="col-span-3">{song.data.albumOfTrack.name}</div>
+                <div className="col-span-2">{song.data.duration.totalMilliseconds}</div>
               </div>
             ))}
           </div>

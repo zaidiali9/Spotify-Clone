@@ -20,7 +20,7 @@ const Navbar = () => {
   return (
     <>
       <nav className='flex justify-between items-center bg-transparent p-4 relative z-10 md:justify-around'>
-        <Link href={"/"} className='bg-transparent text-white text-2xl'>ONE SOUND</Link>
+        <Link href={"/home"} className='bg-transparent text-white text-2xl'>ONE SOUND</Link>
         
         {/* Hamburger menu for small screens */}
         <div className="md:hidden">
@@ -62,13 +62,13 @@ const Navbar = () => {
           {/* Content inside the Drawer */}
           <ul className="flex flex-col text-white">
             <li className="mb-2">
-              <Link href="/">
+              <Link href="/home">
                 Home
               </Link>
             </li>
             <li className="mb-2">
-              <Link href="/albums">
-                Albums
+              <Link href="/playlist">
+                Web Player
               </Link>
             </li>
             <li className="mb-2">
@@ -87,8 +87,8 @@ const Navbar = () => {
               </Link>
             </li>
             <li className="mb-2">
-              <Link href="/contact">
-                Contact
+              <Link href="/ContactUs">
+                Contact Us
               </Link>
             </li>
             <li className="mb-2">
@@ -103,13 +103,13 @@ const Navbar = () => {
         <div className='hidden md:block'>
           <ul className={`flex nav-links active`}>
             <li>
-              <Link href="/">
+              <Link href="/home">
                 Home
               </Link>
             </li>
             <li>
-              <Link href="/albums">
-                Albums
+              <Link href="/playlist">
+                Web Player
               </Link>
             </li>
             <li>
@@ -118,7 +118,7 @@ const Navbar = () => {
               </Link>
             </li>
             <li>
-              <Link href="/events">
+              <Link href="/Events">
                 Events
               </Link>
             </li>
@@ -128,8 +128,8 @@ const Navbar = () => {
               </Link>
             </li>
             <li>
-              <Link href="/contact">
-                Contact
+              <Link href="/ContactUs">
+                Contact Us
               </Link>
             </li>
             <li>

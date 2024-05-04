@@ -6,8 +6,7 @@ const Footer = () => {
     const [date,setdate]=useState(new Date().getFullYear())
     useEffect(() => {
         setIsClient(true)
-
-      }, [])
+    }, [])
     
 return (<>
 
@@ -19,7 +18,7 @@ return (<>
                 <img src="/assets/logo.png" alt=""></img>
             </a>
             <p className="copywrite-text text-xs font-bold py-1"><a href="#">
-                Copyright ©{date} All rights reserved | This template is made by HASI</a>
+                Copyright © {date} All rights reserved | This template is made by HASI</a>
             </p>
             </div>
 
