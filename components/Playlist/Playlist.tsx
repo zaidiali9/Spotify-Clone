@@ -12,6 +12,7 @@ import {
 import Hamburger from "hamburger-react";
 import { UserButton } from "@clerk/nextjs";
 import axios from 'axios';
+import Webplayer from "../WebPlayer/Webplayer";
 const playlists = [
   {
     artist: "WILL I AM",
@@ -302,17 +303,18 @@ const favsongs = [
 ];
 
 function Playlist() {
-  
+  const [uri, setUri] = useState('')
   const [Data, setData] = useState<Song []>([]);
+  const [search, setSearch] = useState('');
   const fetchdata = async () => {
     const options = {
       method: 'GET',
       url: 'https://spotify23.p.rapidapi.com/search/',
       params: {
-        q: 'arijit singh',
+        q: search,
         type: 'tracks',
         offset: '0',
-        limit: '100'
+        limit: '10'
       },
       headers: {
         'X-RapidAPI-Key': 'c5a77051abmshadc8eff1cee4fdfp1883d1jsn9fed63204675',
@@ -339,15 +341,11 @@ useEffect(() => {
 
   return (
     <>
-      <div className=" sidebar fixed overflow-y-scroll inset-y-0 left-32 top-20 bg-gray-800 w-3/5 h-full z-10 ">
+      <div className=" sidebar fixed overflow-y-scroll inset-y-0 left-32 top-20 bg-gray-900 w-3/5 h-full z-10 ">
         <div className="relative top-2 left-2 right-2 h-1/2 rounded-lg shadow-md">
-          <div className="absolute inset-0 bg-[url('/assets/laal-ishq.jpg')] bg-cover bg-center rounded-lg"></div>
-          <h2 className="absolute top-2 left-2 text-white text-xl bg-black bg-opacity-50 px-2 py-1 rounded">
-            {playlists[0].title}
-          </h2>
-          <button className="absolute bottom-2 left-4 px-6 py-2 text-white font-bold rounded-full cursor:pointer hover:bg-gray-900 border border-white">
-            Follow Artist
-          </button>
+          <input type="text" className="w-full h-10 rounded-lg bg-gray-500 text-black" placeholder="Search Bar" onChange={(e)=>setSearch(e.target.value)} />
+          <button className="bg-green-500 rounded" onClick={fetchdata}>Search</button>
+          <Webplayer source= {uri}/>
         </div>
 
         <h1 className="text-xl font-bold text-white mt-4 ml-4">
@@ -383,13 +381,12 @@ useEffect(() => {
               <div className="col-span-2">Duration</div>
             </div>
           </div>
-          <div className="bg-gray-800 rounded-b-lg shadow ">
+          <div className="bg-gray-900 rounded-b-lg shadow ">
             {Data.map((song, index) =>
             (
               <div
                 key={index}
-                className="grid grid-cols-12 text-sm text-black hover:bg-gray-700 p-4 items-center"
-              >
+                className="grid grid-cols-12 text-sm text-gray-300 hover:bg-gray-700 p-4 items-center">
                 <div className="col-span-1">{index + 1}</div>
                 <div className="col-span-4 flex items-center">
                   <img
@@ -403,7 +400,8 @@ useEffect(() => {
                   </div>
                 </div>
                 <div className="col-span-3">{song.data.albumOfTrack.name}</div>
-                <div className="col-span-2">{song.data.duration.totalMilliseconds}</div>
+                <div className="col-span-2">{song.data.duration.totalMilliseconds}</div>  
+                <button className="bg-green-500 rounded" onClick={(e)=>setUri(song.data.uri)}>Play</button>
               </div>
             ))}
           </div>
@@ -445,6 +443,7 @@ useEffect(() => {
         </ul>
       </div>
       <div className="sidebar fixed top-20 right-0 h-full bg-gray-900 text-white overflow-y-auto z-10 w-[30vw]">
+        
         <h2 className="p-4 text-xl font-bold">Favorites</h2>
         <ul>
           {favsongs.map((song, index) => (
