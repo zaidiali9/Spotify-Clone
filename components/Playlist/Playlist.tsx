@@ -1,4 +1,6 @@
 "use client";
+import { FaSearch } from "react-icons/fa";
+import { FaPlay } from "react-icons/fa";
 import React, { useState, useEffect } from "react";
 import "./playlist.css";
 import Link from "next/link";
@@ -11,7 +13,7 @@ import {
 } from "@material-tailwind/react";
 import Hamburger from "hamburger-react";
 import { UserButton } from "@clerk/nextjs";
-import axios from 'axios';
+import axios from "axios";
 import Webplayer from "../WebPlayer/Webplayer";
 const playlists = [
   {
@@ -303,78 +305,75 @@ const favsongs = [
 ];
 
 function Playlist() {
-  const [uri, setUri] = useState('')
-  const [Data, setData] = useState<Song []>([]);
-  const [search, setSearch] = useState('');
+  const [uri, setUri] = useState("");
+  const [Data, setData] = useState<Song[]>([]);
+  const [search, setSearch] = useState("");
+  const [likedSongs, setLikedSongs] = useState<Set<string>>(new Set());
   const fetchdata = async () => {
     const options = {
-      method: 'GET',
-      url: 'https://spotify23.p.rapidapi.com/search/',
+      method: "GET",
+      url: "https://spotify23.p.rapidapi.com/search/",
       params: {
         q: search,
-        type: 'tracks',
-        offset: '0',
-        limit: '10'
+        type: "tracks",
+        offset: "0",
+        limit: "10",
       },
       headers: {
-        'X-RapidAPI-Key': 'c5a77051abmshadc8eff1cee4fdfp1883d1jsn9fed63204675',
-        'X-RapidAPI-Host': 'spotify23.p.rapidapi.com'
-      }
+        "X-RapidAPI-Key": "c5a77051abmshadc8eff1cee4fdfp1883d1jsn9fed63204675",
+        "X-RapidAPI-Host": "spotify23.p.rapidapi.com",
+      },
     };
-    const response = await axios.request(options).then(function (response) {
-      setData(response.data.tracks.items);
-    }).catch(function (error) {
-      console.error(error);
-    })
-  }
-useEffect(() => {
+    const response = await axios
+      .request(options)
+      .then(function (response) {
+        setData(response.data.tracks.items);
+      })
+      .catch(function (error) {
+        console.error(error);
+      });
+  };
+  useEffect(() => {
     fetchdata();
-}, []);
-  
-  console.log("This is array",Data);
+  }, []);
+
+  console.log("This is array", Data);
   const [isOpen, setIsOpen] = useState(false);
 
   const toggleSidebar = () => {
     console.log("Hamburger clicked!");
     setIsOpen((prev) => !prev);
   };
+  function formatDuration(ms) {
+    const totalSeconds = Math.floor(ms / 1000);
+    const minutes = Math.floor(totalSeconds / 60);
+    const seconds = totalSeconds % 60;
+    const paddedSeconds = seconds.toString().padStart(2, "0");
+
+    return `${minutes}:${paddedSeconds}`;
+  }
+  const toggleLike = (songId: string) => {
+    const newLikedSongs = new Set(likedSongs);
+
+    if (newLikedSongs.has(songId)) {
+      newLikedSongs.delete(songId);
+    } else {
+      newLikedSongs.add(songId);
+    }
+
+    setLikedSongs(newLikedSongs);
+  };
 
   return (
     <>
       <div className=" sidebar fixed overflow-y-scroll inset-y-0 left-32 top-20 bg-gray-900 w-3/5 h-full z-10 ">
-        <div className="relative top-2 left-2 right-2 h-1/2 rounded-lg shadow-md">
-          <input type="text" className="w-full h-10 rounded-lg bg-gray-500 text-black" placeholder="Search Bar" onChange={(e)=>setSearch(e.target.value)} />
-          <button className="bg-green-500 rounded" onClick={fetchdata}>Search</button>
-          <Webplayer source= {uri}/>
-        </div>
-
-        <h1 className="text-xl font-bold text-white mt-4 ml-4">
-          Recently Played
-        </h1>
-
-        <div className="mt-4 ml-4 mr-4">
-          <ul className="flex overflow-x-auto">
-            {playlists.map((playlist, index) => (
-              <li key={index} className="inline-block mr-4">
-                <Link href={`/playlists/${playlist.title}`}>
-                  <img
-                    src={playlist.image}
-                    alt={playlist.title}
-                    className="w-24 h-24 object-cover"
-                  />
-                  <div className="text-center mt-2">
-                    <p className="text-sm text-white">{playlist.title}</p>
-                    <p className="text-xs text-gray-400">{playlist.artist}</p>
-                  </div>
-                </Link>
-              </li>
-            ))}
-          </ul>
+        <div className="relative top-2 left-2 right-2 h-3/5 rounded-lg shadow-md">
+          <Webplayer source={uri} />
         </div>
 
         <div className="mt-4 ml-4 mr-4 mb-4 ">
-          <div className="bg-gray-700 rounded-t-lg shadow">
-            <div className="grid grid-cols-12 text-xs font-semibold text-black p-4">
+          <div className="bg-gray-900 rounded-t-lg shadow">
+            <div className="grid grid-cols-12 text-l  text-white p-4">
               <div className="col-span-1">#</div>
               <div className="col-span-4">Title</div>
               <div className="col-span-3 ">Album</div>
@@ -382,28 +381,62 @@ useEffect(() => {
             </div>
           </div>
           <div className="bg-gray-900 rounded-b-lg shadow ">
-            {Data.map((song, index) =>
-            (
-              <div
-                key={index}
-                className="grid grid-cols-12 text-sm text-gray-300 hover:bg-gray-700 p-4 items-center">
-                <div className="col-span-1">{index + 1}</div>
-                <div className="col-span-4 flex items-center">
-                  <img
-                    src={song.data.albumOfTrack.coverArt.sources[0].url}
-                    alt={song.data.name}
-                    className="w-8 h-8 rounded-full mr-2"
-                  />
-                  <div>
-                    <div className="font-medium">{song.data.name}</div>
-                    <div className="text-black">{song.data.name}</div>
+            {Data.map((song, index) => {
+              const isLiked = likedSongs.has(song.data.uri);
+              return (
+                <div
+                  key={index}
+                  className="grid grid-cols-12 text-sm text-gray-300 hover:bg-gray-700 py-4 items-center"
+                >
+                  <div className="col-span-1">{index + 1}</div>
+                  <div className="col-span-4 flex items-center">
+                    <img
+                      src={song.data.albumOfTrack.coverArt.sources[0].url}
+                      alt={song.data.name}
+                      className="w-8 h-8 rounded-full mr-2"
+                    />
+                    <div>
+                      <div className="font-medium mr-6">{song.data.name}</div>
+                    </div>
                   </div>
+                  <div className="col-span-3 mr-6">
+                    {song.data.albumOfTrack.name}
+                  </div>
+                  <div className=" ml-2 col-span-2">
+                    {formatDuration(song.data.duration.totalMilliseconds)}
+                  </div>
+                  <button
+                    className="bg-white w-6 h-6 flex items-center justify-center rounded-full shadow-md"
+                    onClick={(e) => setUri(song.data.uri)}
+                  >
+                    <FaPlay className="text-gray-900 text-xs" />
+                  </button>
+                  <button
+                    className="w-6 h-6 text-red-500 fill-current"
+                    onClick={() => toggleLike(song.data.uri)}
+                  >
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="24"
+                      height="24"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        stroke="red"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        fill={isLiked ? "red" : "none"}
+                        d={
+                          isLiked
+                            ? "M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"
+                            : "M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"
+                        }
+                      />
+                    </svg>
+                  </button>
                 </div>
-                <div className="col-span-3">{song.data.albumOfTrack.name}</div>
-                <div className="col-span-2">{song.data.duration.totalMilliseconds}</div>  
-                <button className="bg-green-500 rounded" onClick={(e)=>setUri(song.data.uri)}>Play</button>
-              </div>
-            ))}
+              );
+            })}
           </div>
         </div>
       </div>
@@ -443,32 +476,38 @@ useEffect(() => {
         </ul>
       </div>
       <div className="sidebar fixed top-20 right-0 h-full bg-gray-900 text-white overflow-y-auto z-10 w-[30vw]">
-        
-        <h2 className="p-4 text-xl font-bold">Favorites</h2>
+        <div className="flex items-center w-full h-10 bg-gray-500 rounded-lg overflow-hidden">
+          <input
+            type="text"
+            className="flex-grow h-full px-3 text-black bg-transparent focus:outline-none"
+            placeholder="Search"
+            onChange={(e) => setSearch(e.target.value)}
+          />
+          <div
+            className="h-full px-3 flex items-center justify-center bg-gray-600 text-gray-300 cursor-pointer"
+            onClick={fetchdata}
+          >
+            <FaSearch />
+          </div>
+        </div>
+
+        <h2 className="p-4 text-xl font-bold">Recently Played</h2>
         <ul>
-          {favsongs.map((song, index) => (
+          {Data.map((song, index) => (
             <li
               key={index}
               className="flex items-center  p-4 border-b border-gray-800"
             >
               <img
-                className="w-12 h-12 object-cover mr-4"
-                src={song.image}
-                alt={song.name}
+                src={song.data.albumOfTrack.coverArt.sources[0].url}
+                alt={song.data.name}
+                className="w-8 h-8 rounded-full mr-2"
               />
               <div className="flex items-center">
                 <div>
-                  <p className="font-semibold">{song.name}</p>
-                  <p className="text-sm">{song.artist}</p>
+                  <p className="text-s pr-12">{song.data.name}</p>
+                  <p className="text-xs">{song.data.artist}</p>
                 </div>
-
-                <svg
-                  className="w-6 h-6 absolute right-6 text-red-500 fill-current"
-                  xmlns="http://www.w3.org/2000/svg"
-                  viewBox="0 0 24 24"
-                >
-                  <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" />
-                </svg>
               </div>
             </li>
           ))}
