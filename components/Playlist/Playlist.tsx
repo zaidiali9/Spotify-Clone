@@ -15,6 +15,8 @@ import Hamburger from "hamburger-react";
 import { UserButton } from "@clerk/nextjs";
 import axios from "axios";
 import Webplayer from "../WebPlayer/Webplayer";
+import { json } from "stream/consumers";
+import { SongDB } from "@/interface/songDB";
 const playlists = [
   {
     artist: "WILL I AM",
@@ -307,6 +309,7 @@ const favsongs = [
 function Playlist() {
   const [uri, setUri] = useState("");
   const [Data, setData] = useState<Song[]>([]);
+  const [recentlyplayed, setRecentlyPlayed] = useState<SongDB[]>([]);
   const [search, setSearch] = useState("");
   const [likedSongs, setLikedSongs] = useState<Set<string>>(new Set());
   const fetchdata = async () => {
@@ -320,8 +323,8 @@ function Playlist() {
         limit: "10",
       },
       headers: {
-        "X-RapidAPI-Key": "c5a77051abmshadc8eff1cee4fdfp1883d1jsn9fed63204675",
-        "X-RapidAPI-Host": "spotify23.p.rapidapi.com",
+        'X-RapidAPI-Key': '45952933dbmsh2757eff7f341f4fp1e68ecjsnfa327ea522b7',
+        'X-RapidAPI-Host': 'spotify23.p.rapidapi.com'
       },
     };
     const response = await axios
@@ -333,9 +336,18 @@ function Playlist() {
         console.error(error);
       });
   };
-  useEffect(() => {
+  const fetchRecentlyPlayed = async () => {
+    await axios.get("/api/recentlyplayed").then((response) => {
+      setRecentlyPlayed(response.data.body);
+    })
+  }
+  useEffect(() => {   
     fetchdata();
   }, []);
+
+  useEffect(() => {
+    fetchRecentlyPlayed();
+  }, [recentlyplayed]);
 
   console.log("This is array", Data);
   const [isOpen, setIsOpen] = useState(false);
@@ -407,7 +419,17 @@ function Playlist() {
                   </div>
                   <button
                     className="bg-white w-6 h-6 flex items-center justify-center rounded-full shadow-md"
-                    onClick={(e) => setUri(song.data.uri)}
+                    onClick={async (e) => {
+                      e.preventDefault();
+                      setUri(song.data.uri)
+                      axios.post("/api/recentlyplayed", {
+                        uri: song.data.uri,
+                        name: song.data.name,
+                        album: song.data.albumOfTrack.name,
+                        artist: song.data.albumOfTrack.coverArt.sources[0].url,
+                        duration: song.data.duration.totalMilliseconds
+                      })
+                    }}
                   >
                     <FaPlay className="text-gray-900 text-xs" />
                   </button>
@@ -493,20 +515,20 @@ function Playlist() {
 
         <h2 className="p-4 text-xl font-bold">Recently Played</h2>
         <ul>
-          {Data.map((song, index) => (
+          {recentlyplayed.map((song, index) => (
             <li
               key={index}
               className="flex items-center  p-4 border-b border-gray-800"
             >
               <img
-                src={song.data.albumOfTrack.coverArt.sources[0].url}
-                alt={song.data.name}
+                src={song.artist}
+                alt={song.name}
                 className="w-8 h-8 rounded-full mr-2"
               />
               <div className="flex items-center">
                 <div>
-                  <p className="text-s pr-12">{song.data.name}</p>
-                  <p className="text-xs">{song.data.artist}</p>
+                  <p className="text-s pr-12">{song.name}</p>
+                  <p className="text-xs">{song.albumOfTrack}</p>
                 </div>
               </div>
             </li>
