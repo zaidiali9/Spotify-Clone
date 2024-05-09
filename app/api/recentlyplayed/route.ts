@@ -8,6 +8,7 @@ MongoConnect();
 export async function GET(req: Request) {
     try {
         const recentlyPlayed = await RecentlyPlayed.find()
+        recentlyPlayed.reverse()
         return NextResponse.json({body: recentlyPlayed},{status: 200})
     } catch (err) {
         return NextResponse.error();

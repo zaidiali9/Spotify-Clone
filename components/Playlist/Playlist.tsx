@@ -347,7 +347,7 @@ function Playlist() {
 
   useEffect(() => {
     fetchRecentlyPlayed();
-  }, [recentlyplayed]);
+  }, []);
 
   console.log("This is array", Data);
   const [isOpen, setIsOpen] = useState(false);
