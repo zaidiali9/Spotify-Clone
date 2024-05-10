@@ -422,9 +422,17 @@ function Playlist() {
                     onClick={async (e) => {
                       e.preventDefault();
                       setUri(song.data.uri)
-                      axios.post("/api/recentlyplayed", {
+                      
+                      setRecentlyPlayed([{
                         uri: song.data.uri,
                         name: song.data.name,
+                        artist: song.data.albumOfTrack.coverArt.sources[0].url,
+                        albumOfTrack: song.data.albumOfTrack.name,
+                        duration: song.data.duration.totalMilliseconds
+                      },...recentlyplayed])
+                      axios.post("/api/recentlyplayed", {
+                        uri: song.data.uri,
+                        name: song.data.name, 
                         album: song.data.albumOfTrack.name,
                         artist: song.data.albumOfTrack.coverArt.sources[0].url,
                         duration: song.data.duration.totalMilliseconds
