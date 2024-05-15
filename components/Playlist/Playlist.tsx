@@ -794,6 +794,11 @@ console.log("LikedSongsClicked:", likedSongsClicked);
             <li
               key={index}
               className="flex items-center  p-4 border-b border-gray-800"
+              onClick={async (e) => {
+                e.preventDefault();
+                setUri(song.uri)
+                fetchRecentlyPlayed()
+              }}
             >
               <img
                 src={song.artist}
@@ -803,7 +808,7 @@ console.log("LikedSongsClicked:", likedSongsClicked);
               <div className="flex items-center">
                 <div>
                   <p className="text-s pr-12">{song.name}</p>
-                  <p className="text-xs">{song.album}</p>
+                  {/*<p className="text-xs">{song.album}</p>*/}
                 </div>
               </div>
             </li>
