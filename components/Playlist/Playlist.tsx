@@ -348,6 +348,7 @@ function Playlist() {
   };
   const fetchRecentlyPlayed = async () => {
     await axios.get("/api/recentlyplayed").then((response) => {
+      console.log(response.data.body)
       setRecentlyPlayed(response.data.body);
     })
   }
@@ -356,8 +357,16 @@ function Playlist() {
   }, []);
 
   useEffect(() => {
-    fetchRecentlyPlayed();
-  }, []);
+   fetchRecentlyPlayed();
+   }, []);
+
+  //useEffect(() => {
+    //const interval = setInterval(() => {
+      //fetchRecentlyPlayed();
+    //}, 50000);
+  
+  //  return () => clearInterval(interval);
+  //}, []);
 
   useEffect(() => {
     fetchLikedSongs();
@@ -444,6 +453,7 @@ console.log("LikedSongsClicked:", likedSongsClicked);
                         artist: song.data.albumOfTrack.coverArt.sources[0].url,
                         duration: song.data.duration.totalMilliseconds
                       })
+                          fetchRecentlyPlayed();
                     }}
                   >
                     <FaPlay className="text-gray-900 text-xs" />
@@ -660,7 +670,8 @@ console.log("LikedSongsClicked:", likedSongsClicked);
             album: song.albumOfTrack,
             artist: song.artist,
             duration: song.duration
-          })
+          });
+          fetchRecentlyPlayed();
         }}
       >
         <FaPlay className="text-gray-900 text-xs" />
