@@ -19,7 +19,7 @@ const Navbar = () => {
   
   return (
     <>
-      <nav className='flex justify-between items-center bg-transparent p-4 relative z-10 md:justify-around'>
+      <nav className='flex justify-between items-center bg-black opacity-90 p-4 relative z-10 md:justify-around'>
         <Link href={"/home"} className='bg-transparent text-white text-2xl'>ONE SOUND</Link>
         
         {/* Hamburger menu for small screens */}

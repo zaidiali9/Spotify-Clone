@@ -82,12 +82,12 @@ function Playlist() {
         q: search,
         type: "tracks",
         offset: "0",
-        limit: "10",
+        limit: "15",
       },
       headers: {
-        'X-RapidAPI-Key': '45952933dbmsh2757eff7f341f4fp1e68ecjsnfa327ea522b7',
+        'X-RapidAPI-Key': 'f77c13bcc5msh43f09a564c7bab8p184410jsneb30a7124b68',
         'X-RapidAPI-Host': 'spotify23.p.rapidapi.com'
-      },
+      }
     };
     const response = await axios
       .request(options)
@@ -141,7 +141,7 @@ function Playlist() {
   return (
     <>
       <div className=" sidebar fixed overflow-y-scroll inset-y-0 left-32 top-20 bg-gray-900 w-3/5 h-full z-10 ">
-        <div className="relative top-2 left-2 right-2 h-3/5 rounded-lg shadow-md">
+        <div className="relative top-2 left-2 right-2 rounded-lg shadow-md">
           <Webplayer source={uri} />
         </div>
 

@@ -18,6 +18,7 @@ interface albumOfTrack{
 interface duration{
     totalMilliseconds: number
 }
+
 interface coverArt{
     sources: <sources>([])
 }
