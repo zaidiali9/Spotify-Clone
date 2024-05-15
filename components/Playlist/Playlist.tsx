@@ -403,7 +403,7 @@ console.log("LikedSongsClicked:", likedSongsClicked);
   return (
     <>
       <div className=" sidebar fixed overflow-y-scroll inset-y-0 left-32 top-20 bg-gray-900 w-3/5 h-full z-10 ">
-        <div className="sticky top-0 rounded-lg shadow-md">
+        <div className="sticky top-0 rounded-lg ">
           <Webplayer source={uri} />
         </div>
         <div className="ml-4 mr-4 mb-4 ">
@@ -482,7 +482,7 @@ console.log("LikedSongsClicked:", likedSongsClicked);
                           uri: song.data.uri,
                           name: song.data.name,
                           artist: song.data.albumOfTrack.coverArt.sources[0].url,
-                          albumofTrack: song.data.albumOfTrack.name,
+                          album: song.data.albumOfTrack.name,
                           duration: song.data.duration.totalMilliseconds
                         });
                         // Update the likedSongs state to include the newly added song
@@ -490,7 +490,7 @@ console.log("LikedSongsClicked:", likedSongsClicked);
                           uri: song.data.uri,
                           name: song.data.name,
                           artist: song.data.albumOfTrack.coverArt.sources[0].url,
-                          albumOfTrack: song.data.albumOfTrack.name,
+                          album: song.data.albumOfTrack.name,
                           duration: song.data.duration.totalMilliseconds
                         }]);
                       }
@@ -621,7 +621,7 @@ console.log("LikedSongsClicked:", likedSongsClicked);
 
       {likedSongsClicked && likedSongs.length > 0 && (
         <div className=" sidebar fixed overflow-y-scroll inset-y-0 left-32 top-20 bg-gray-900 w-3/5 h-full z-10 ">
-        <div className="sticky top-0 rounded-lg shadow-md">
+        <div className="sticky top-0 rounded-lg ">
           <Webplayer source={uri} />
         </div>
 
@@ -631,7 +631,7 @@ console.log("LikedSongsClicked:", likedSongsClicked);
               <div className="col-span-1">#</div>
               <div className="col-span-4">Title</div>
               <div className="col-span-3 ">Album</div>
-              <div className="col-span-2">Duration</div>
+              <div className="col-span-1">Duration</div>
             </div>
           </div>
 <div className="bg-gray-900 pb-20 rounded-b-lg shadow ">
@@ -654,20 +654,21 @@ console.log("LikedSongsClicked:", likedSongsClicked);
         </div>
       </div>
       <div className="col-span-3 mr-6">
-        {song.albumOfTrack}
+        {song.album}
       </div>
       <div className=" ml-2 col-span-2">
         {formatDuration(song.duration)}
       </div>
+      <div className="col-span-2 flex justify-center">
       <button
-        className="bg-white w-6 h-6 flex items-center justify-center rounded-full shadow-md"
+        className="bg-white w-6 h-6 flex items-center justify-center rounded-full shadow-md mr-4"
         onClick={async (e) => {
           e.preventDefault();
           setUri(song.uri)
           axios.post("/api/recentlyplayed", {
             uri: song.uri,
             name: song.name,
-            album: song.albumOfTrack,
+            album: song.album,
             artist: song.artist,
             duration: song.duration
           });
@@ -677,7 +678,7 @@ console.log("LikedSongsClicked:", likedSongsClicked);
         <FaPlay className="text-gray-900 text-xs" />
       </button>
       <button
-      className={`w-6 h-6 text-red-500 ${
+      className={`w-6 h-6 mr-4 text-red-500 ${
         likedSongs.some(songDB => songDB.uri === song.uri) ? 'fill-current' : ''
       }`}
       onClick={async (e) => {
@@ -717,7 +718,15 @@ console.log("LikedSongsClicked:", likedSongsClicked);
           />
         </svg>
       </button>
-      
+      <button
+        className="bg-white  w-6 h-6 flex items-center justify-center rounded-full shadow-md "
+         onClick={() => {
+            setIsModalOpen(true);
+          }}
+          >
+         <FaEllipsisH className="text-gray-900 text-xs" />
+        </button>
+        </div>
     </div>
   );
 })}
@@ -726,12 +735,43 @@ console.log("LikedSongsClicked:", likedSongsClicked);
 </div>
  )
 } 
-      {likedSongsClicked && likedSongs.length === 0 && (
-                <div className="bg-gray-900 rounded-b-lg shadow text-gray-300 p-4">
-                  No liked songs to display.
-                </div>
-              )}
-            
+
+     {isModalOpen && (
+        <div className="fixed inset-0 bg-gray-800 bg-opacity-75 flex items-center justify-center z-50">
+          <div className="bg-white rounded-lg p-6 w-1/3 relative">
+            <button
+              className="absolute top-2 right-2"
+              onClick={()=>setIsModalOpen(false)}
+            >
+              <FaTimes className="text-gray-500 hover:text-gray-700 transition duration-300" />
+            </button>
+            <div>
+              <p className="text-lg font-semibold mb-4">Options</p>
+              <div
+                className="py-2 px-4 rounded-md hover:bg-gray-100 transition duration-300 cursor-pointer"
+                onClick={() => {
+                }}
+              >
+                Add to playlist
+              </div>
+              <div
+                className="py-2 px-4 rounded-md hover:bg-gray-100 transition duration-300 cursor-pointer"
+                onClick={() => {
+                }}
+              >
+                Create new playlist
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+      
+
+
+
+
+
+
       <div className="sidebar fixed top-20 right-0 h-full bg-gray-900 text-white overflow-y-auto z-10 w-[30vw]">
         <div className="flex items-center w-full h-10 bg-gray-500 rounded-lg overflow-hidden">
           <input
@@ -763,7 +803,7 @@ console.log("LikedSongsClicked:", likedSongsClicked);
               <div className="flex items-center">
                 <div>
                   <p className="text-s pr-12">{song.name}</p>
-                  <p className="text-xs">{song.albumOfTrack}</p>
+                  <p className="text-xs">{song.album}</p>
                 </div>
               </div>
             </li>

@@ -5,7 +5,7 @@ const likedsongsSchema = new Schema({
     uri: String,
     name: String,
     artist: String,
-    albumOfTrack: String,
+    album: String,
     duration: Number
 })  
 
