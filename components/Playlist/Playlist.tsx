@@ -141,7 +141,7 @@ function Playlist() {
   return (
     <>
       <div className=" sidebar fixed overflow-y-scroll inset-y-0 left-32 top-20 bg-gray-900 w-3/5 h-full z-10 ">
-        <div className="relative top-2 left-2 right-2 rounded-lg shadow-md">
+        <div className="relative rounded-xl shadow-md">
           <Webplayer source={uri} />
         </div>
 
@@ -154,7 +154,7 @@ function Playlist() {
               <div className="col-span-2">Duration</div>
             </div>
           </div>
-          <div className="bg-gray-900 rounded-b-lg shadow ">
+          <div className="bg-gray-900 rounded-b-lg shadow pb-20 ">
             {Data.map((song, index) => {
               const isLiked = likedSongs.has(song.data.uri);
               return (
@@ -162,7 +162,7 @@ function Playlist() {
                   key={index}
                   className="grid grid-cols-12 text-sm text-gray-300 hover:bg-gray-700 py-4 items-center"
                 >
-                  <div className="col-span-1">{index + 1}</div>
+                  <div className="col-span-1">{index+1}</div>
                   <div className="col-span-4 flex items-center">
                     <img
                       src={song.data.albumOfTrack.coverArt.sources[0].url}
