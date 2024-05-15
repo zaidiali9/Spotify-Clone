@@ -7,9 +7,17 @@ import React, { useState, useEffect } from "react";
 import "./playlist.css";
 import Link from "next/link";
 import { Song } from "@/interface/song";
+import {
+  Drawer,
+  Button,
+  Typography,
+  IconButton,
+} from "@material-tailwind/react";
 import Hamburger from "hamburger-react";
+import { UserButton } from "@clerk/nextjs";
 import axios from "axios";
 import Webplayer from "../WebPlayer/Webplayer";
+import { json } from "stream/consumers";
 import { SongDB } from "@/interface/songDB";
 const playlists = [
   {
@@ -61,29 +69,256 @@ const playlists = [
     image: "/assets/a6.jpg",
   },
 ];
+const first = [
+  {
+    image: "/assets/laal-ishq.jpg",
+    name: "laal Ishq",
+    artist: "Arijit Singh",
+    date: "3 days ago",
+    duration: "4:16",
+    album: "first",
+  },
+  {
+    image: "/assets/a2.jpg",
+    name: "laal Ishq",
+    artist: "Arijit Singh",
+    date: "3 days ago",
+    duration: "4:16",
+    album: "first",
+  },
+  {
+    name: "laal Ishq",
+    image: "/assets/a3.jpg",
+    artist: "Arijit Singh",
+    date: "3 days ago",
+    duration: "4:16",
+    album: "first",
+  },
+  {
+    name: "laal Ishq",
+    image: "/assets/a4.jpg",
+    artist: "Arijit Singh",
+    date: "3 days ago",
+    duration: "4:16",
+    album: "first",
+  },
+  {
+    name: "laal Ishq",
+    image: "/assets/a5.jpg",
+    artist: "Arijit Singh",
+    date: "3 days ago",
+    duration: "4:16",
+    album: "first",
+  },
+  {
+    name: "laal Ishq",
+    image: "/assets/a5.jpg",
+    artist: "Arijit Singh",
+    date: "3 days ago",
+    duration: "4:16",
+    album: "first",
+  },
+  {
+    name: "laal Ishq",
+    image: "/assets/a5.jpg",
+    artist: "Arijit Singh",
+    date: "3 days ago",
+    duration: "4:16",
+    album: "first",
+  },
+  {
+    name: "laal Ishq",
+    image: "/assets/laal-ishq.jpg",
+    artist: "Arijit Singh",
+    date: "3 days ago",
+    duration: "4:16",
+    album: "first",
+  },
+  {
+    name: "laal Ishq",
+    image: "/assets/a5.jpg",
+    artist: "Arijit Singh",
+    date: "3 days ago",
+    duration: "4:16",
+    album: "first",
+  },
+  {
+    name: "laal Ishq",
+    image: "/assets/a5.jpg",
+    artist: "Arijit Singh",
+    date: "3 days ago",
+    duration: "4:16",
+    album: "first",
+  },
+  {
+    name: "laal Ishq",
+    image: "/assets/a5.jpg",
+    artist: "Arijit Singh",
+    date: "3 days ago",
+    duration: "4:16",
+    album: "first",
+  },
+  {
+    name: "laal Ishq",
+    image: "/assets/a5.jpg",
+    artist: "Arijit Singh",
+    date: "3 days ago",
+    duration: "4:16",
+    album: "first",
+  },
+  {
+    name: "laal Ishq",
+    image: "/assets/a5.jpg",
+    artist: "Arijit Singh",
+    date: "3 days ago",
+    duration: "4:16",
+    album: "first",
+  },
+  {
+    name: "laal Ishq",
+    image: "/assets/laal-ishq.jpg",
+    artist: "Arijit Singh",
+    date: "3 days ago",
+    duration: "4:16",
+    album: "first",
+  },
+];
+const second = [
+  {
+    image: "/assets/a1.jpg",
+    name: "9:45",
+    artist: "Prabh Singh",
+    date: "3 days ago",
+    duration: "4:16",
+    album: "second",
+  },
+  {
+    image: "/assets/a2.jpg",
+    name: "with you",
+    artist: "AP Dhillon",
+    date: "3 days ago",
+    duration: "4:16",
+    album: "first",
+  },
+  {
+    name: "Excuses",
+    image: "/assets/a3.jpg",
+    artist: "AP Dhillon",
+    date: "3 days ago",
+    duration: "4:16",
+    album: "first",
+  },
+  {
+    name: "wo Noor",
+    image: "/assets/a4.jpg",
+    artist: "AP Dhillon",
+    date: "3 days ago",
+    duration: "4:16",
+    album: "first",
+  },
+  {
+    name: "Summer High",
+    image: "/assets/a5.jpg",
+    artist: "AP Dhillon",
+    date: "3 days ago",
+    duration: "4:16",
+    album: "first",
+  },
+  {
+    image: "/assets/a1.jpg",
+    name: "9:45",
+    artist: "Prabh Singh",
+    date: "3 days ago",
+    duration: "4:16",
+    album: "second",
+  },
+  {
+    image: "/assets/a2.jpg",
+    name: "with you",
+    artist: "AP Dhillon",
+    date: "3 days ago",
+    duration: "4:16",
+    album: "first",
+  },
+  {
+    name: "Excuses",
+    image: "/assets/a3.jpg",
+    artist: "AP Dhillon",
+    date: "3 days ago",
+    duration: "4:16",
+    album: "first",
+  },
+  {
+    name: "wo Noor",
+    image: "/assets/a4.jpg",
+    artist: "AP Dhillon",
+    date: "3 days ago",
+    duration: "4:16",
+    album: "first",
+  },
+  {
+    name: "Summer High",
+    image: "/assets/a5.jpg",
+    artist: "AP Dhillon",
+    date: "3 days ago",
+    duration: "4:16",
+    album: "first",
+  },
+];
+const favsongs = [
+  {
+    image: "/assets/laal-ishq.jpg",
+    name: "laal Ishq",
+    artist: "Arijit Singh",
+  },
+  {
+    name: "Summer High",
+    image: "/assets/a5.jpg",
+    artist: "AP Dhillon",
+  },
+  {
+    image: "/assets/a2.jpg",
+    name: "with you",
+    artist: "AP Dhillon",
+  },
+  {
+    name: "laal Ishq",
+    image: "/assets/a5.jpg",
+    artist: "Arijit Singh",
+  },
+  {
+    name: "wo Noor",
+    image: "/assets/a4.jpg",
+    artist: "AP Dhillon",
+  },
+  {
+    image: "/assets/a2.jpg",
+    name: "with you",
+    artist: "AP Dhillon",
+  },
+  {
+    name: "laal Ishq",
+    image: "/assets/a5.jpg",
+    artist: "Arijit Singh",
+  },
+  {
+    name: "wo Noor",
+    image: "/assets/a4.jpg",
+    artist: "AP Dhillon",
+  },
+];
+
 function Playlist() {
   const [uri, setUri] = useState("");
   const [Data, setData] = useState<Song[]>([]);
   const [recentlyplayed, setRecentlyPlayed] = useState<SongDB[]>([]);
   const [search, setSearch] = useState("");
-<<<<<<< HEAD
-  const [likedSongs, setLikedSongs] = useState<Set<string>>(new Set());
-  
-  const addlist = async () => {
-    
-  }
-
-  const removelist = () => {
-
-  }
-=======
   const [likedSongs, setLikedSongs] = useState<SongDB[]>([]);
   const [likedSongsClicked, setLikedSongsClicked] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isSearchOpen, setSearchOpen] = useState(false);
 
 
->>>>>>> saba/playlist
 
   const fetchdata = async () => {
     const options = {
@@ -93,16 +328,13 @@ function Playlist() {
         q: search,
         type: "tracks",
         offset: "0",
-        limit: "15",
+        limit: "10",
       },
       headers: {
         'X-RapidAPI-Key': 'f77c13bcc5msh43f09a564c7bab8p184410jsneb30a7124b68',
         'X-RapidAPI-Host': 'spotify23.p.rapidapi.com'
       }
-<<<<<<< HEAD
-=======
       
->>>>>>> saba/playlist
     };
     setLikedSongsClicked(false)
     const response = await axios
@@ -162,7 +394,7 @@ console.log("LikedSongsClicked:", likedSongsClicked);
   return (
     <>
       <div className=" sidebar fixed overflow-y-scroll inset-y-0 left-32 top-20 bg-gray-900 w-3/5 h-full z-10 ">
-        <div className="relative top-2 left-2 right-2 rounded-lg shadow-md">
+        <div className="relative top-2 left-2 right-2 h-3/5 rounded-lg shadow-md">
           <Webplayer source={uri} />
         </div>
 
@@ -206,17 +438,9 @@ console.log("LikedSongsClicked:", likedSongsClicked);
                     onClick={async (e) => {
                       e.preventDefault();
                       setUri(song.data.uri)
-                      
-                      setRecentlyPlayed([{
-                        uri: song.data.uri,
-                        name: song.data.name,
-                        artist: song.data.albumOfTrack.coverArt.sources[0].url,
-                        albumOfTrack: song.data.albumOfTrack.name,
-                        duration: song.data.duration.totalMilliseconds
-                      },...recentlyplayed])
                       axios.post("/api/recentlyplayed", {
                         uri: song.data.uri,
-                        name: song.data.name, 
+                        name: song.data.name,
                         album: song.data.albumOfTrack.name,
                         artist: song.data.albumOfTrack.coverArt.sources[0].url,
                         duration: song.data.duration.totalMilliseconds
@@ -277,7 +501,6 @@ console.log("LikedSongsClicked:", likedSongsClicked);
                         stroke-linecap="round"
                         stroke-linejoin="round"
                         fill={isLiked ? "red" : "none"}
-                        onClick={isLiked ? addlist : removelist}
                         d={
                           isLiked
                             ? "M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"
@@ -521,7 +744,7 @@ console.log("LikedSongsClicked:", likedSongsClicked);
             <li
               key={index}
               className="flex items-center  p-4 border-b border-gray-800"
-            > 
+            >
               <img
                 src={song.artist}
                 alt={song.name}
@@ -530,8 +753,9 @@ console.log("LikedSongsClicked:", likedSongsClicked);
               <div className="flex items-center">
                 <div>
                   <p className="text-s pr-12">{song.name}</p>
+                  <p className="text-xs">{song.albumOfTrack}</p>
                 </div>
-              </div>  
+              </div>
             </li>
           ))}
         </ul>
