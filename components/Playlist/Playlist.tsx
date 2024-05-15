@@ -464,7 +464,7 @@ console.log("LikedSongsClicked:", likedSongsClicked);
                   }`}
                   onClick={async (e) => {
                     e.preventDefault();
-                    setUri(song.data.uri);
+                    //setUri(song.data.uri);
                     try {
                       const likedSongIndex = likedSongs.findIndex(songDB => songDB.uri === song.data.uri);
                       if (likedSongIndex !== -1) {
@@ -621,7 +621,7 @@ console.log("LikedSongsClicked:", likedSongsClicked);
 
       {likedSongsClicked && likedSongs.length > 0 && (
         <div className=" sidebar fixed overflow-y-scroll inset-y-0 left-32 top-20 bg-gray-900 w-3/5 h-full z-10 ">
-        <div className="sticky top-0 rounded-lg ">
+        <div className="sticky top-0 rounded-lg">
           <Webplayer source={uri} />
         </div>
 
