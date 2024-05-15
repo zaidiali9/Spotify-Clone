@@ -5,6 +5,7 @@ const Webplayer = ({source}) => {
     <SpotifyEmbed
       src={source}
       className='w-full'
+      
     />
   )
 }

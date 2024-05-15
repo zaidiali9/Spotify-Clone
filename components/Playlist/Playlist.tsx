@@ -394,11 +394,10 @@ console.log("LikedSongsClicked:", likedSongsClicked);
   return (
     <>
       <div className=" sidebar fixed overflow-y-scroll inset-y-0 left-32 top-20 bg-gray-900 w-3/5 h-full z-10 ">
-        <div className="relative top-2 left-2 right-2 h-3/5 rounded-lg shadow-md">
+        <div className="sticky top-0 rounded-lg shadow-md">
           <Webplayer source={uri} />
         </div>
-
-        <div className="mt-4 ml-4 mr-4 mb-4 ">
+        <div className="ml-4 mr-4 mb-4 ">
           <div className="bg-gray-900 rounded-t-lg shadow">
             <div className="grid grid-cols-12 text-l  text-white p-4">
               <div className="col-span-1">#</div>
@@ -407,7 +406,7 @@ console.log("LikedSongsClicked:", likedSongsClicked);
               <div className="col-span-1">Duration</div>
             </div>
           </div>
-          <div className="bg-gray-900 rounded-b-lg shadow ">
+          <div className="bg-gray-900 pb-20 rounded-b-lg shadow ">
             { !likedSongsClicked && Data.map((song, index) => {
               const isLiked = likedSongs.some(songDB => songDB.uri === song.data.uri);
               return (
@@ -612,11 +611,11 @@ console.log("LikedSongsClicked:", likedSongsClicked);
 
       {likedSongsClicked && likedSongs.length > 0 && (
         <div className=" sidebar fixed overflow-y-scroll inset-y-0 left-32 top-20 bg-gray-900 w-3/5 h-full z-10 ">
-        <div className="relative top-2 left-2 right-2 h-3/5 rounded-lg shadow-md">
+        <div className="sticky top-0 rounded-lg shadow-md">
           <Webplayer source={uri} />
         </div>
 
-        <div className="mt-4 ml-4 mr-4 mb-4 ">
+        <div className="ml-4 mr-4 mb-4 ">
           <div className="bg-gray-900 rounded-t-lg shadow">
             <div className="grid grid-cols-12 text-l  text-white p-4">
               <div className="col-span-1">#</div>
@@ -625,7 +624,7 @@ console.log("LikedSongsClicked:", likedSongsClicked);
               <div className="col-span-2">Duration</div>
             </div>
           </div>
-<div className="bg-gray-900 rounded-b-lg shadow ">
+<div className="bg-gray-900 pb-20 rounded-b-lg shadow ">
 {likedSongs.map((song, index) => {
   const isLiked = likedSongs.some(songDB => songDB.uri === song.uri);
   return (
